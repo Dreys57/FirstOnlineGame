@@ -165,57 +165,57 @@ def main():
                 break
 
 
-        font = pygame.font.SysFont("comicsans", 90)
+            font = pygame.font.SysFont("comicsans", 90)
 
-        if (game.Winner() == 1 and player == 1) or\
-            (game.Winner() == 0 and player == 0):
+            if (game.Winner() == 1 and player == 1) or\
+                (game.Winner() == 0 and player == 0):
 
-            text = font.render("You have won!", 1, (255, 0, 0))
+                text = font.render("You have won!", 1, (255, 0, 0))
 
-        elif game.Winner() == -1:
+            elif game.Winner() == -1:
 
-            text = font.render("It's a tie!", 1, (255, 0, 0))
+                text = font.render("It's a tie!", 1, (255, 0, 0))
 
-        else:
+            else:
 
-            text = font.render("You have lost...", 1, (255, 0, 0))
+                text = font.render("You have lost...", 1, (255, 0, 0))
 
 
-        window.blit(text,
-                    (windowWidth/2 - text.get_width()/2,
-                     windowHeight/2 - text.get_height()/2))
+            window.blit(text,
+                        (windowWidth/2 - text.get_width()/2,
+                         windowHeight/2 - text.get_height()/2))
 
-        pygame.display.update()
-        pygame.time.delay(2000)
+            pygame.display.update()
+            pygame.time.delay(2000)
 
-    for event in pygame.event.get():
+        for event in pygame.event.get():
 
-        if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT:
 
-            run = False
-            pygame.quit()
+                run = False
+                pygame.quit()
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == pygame.MOUSEBUTTONDOWN:
 
-                pos = pygame.mouse.get_pos()
+                    pos = pygame.mouse.get_pos()
 
-                for button in buttons:
+                    for button in buttons:
 
-                    if button.ClickButton(pos) and game.Connected():
+                        if button.ClickButton(pos) and game.Connected():
 
-                        if player == 0:
-
-                            if not game.p1HasChosen:
-
-                                network.send(button, text)
-
-                            else:
+                            if player == 0:
 
                                 if not game.p1HasChosen:
 
                                     network.send(button, text)
 
-    RedrawWindow(window, game, player)
+                                else:
+
+                                    if not game.p1HasChosen:
+
+                                        network.send(button, text)
+
+        RedrawWindow(window, game, player)
 
 
 def MenuScreen():
@@ -247,8 +247,7 @@ def MenuScreen():
                 run = False
 
 
-        main()
+    main()
 
 while True:
-
     MenuScreen()

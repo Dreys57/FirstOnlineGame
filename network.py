@@ -6,10 +6,10 @@ class Network:
     def __init__(self):
 
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server = '51.178.84.118'
+        self.server = '192.168.1.124'
         self.port = 65432
         self.addr = (self.server, self.port)
-        self.p = self.connect()
+        self.p = self.Connect()
 
     def getP(self):
 
