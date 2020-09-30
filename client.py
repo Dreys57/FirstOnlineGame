@@ -1,12 +1,14 @@
 import pygame
 from network import Network
 import pickle
+
 pygame.font.init()
 
 windowWidth = 700
 windowHeight = 700
 window = pygame.display.set_mode((windowWidth, windowHeight))
 pygame.display.set_caption("Client")
+
 
 class Button:
 
@@ -94,7 +96,6 @@ def RedrawWindow(window, game, p):
                 textP1 = font.render("Waiting...", 1, (0, 0, 0))
 
 
-
             if game.p2HasChosen and p == 1:
 
                 textP2 = font.render(moveP1, 1, (0, 0, 0))
@@ -106,7 +107,6 @@ def RedrawWindow(window, game, p):
             else:
 
                 textP2 = font.render("Waiting...", 1, (0, 0, 0))
-
 
         if p == 1:
 
@@ -121,7 +121,7 @@ def RedrawWindow(window, game, p):
 
         for button in buttons:
 
-            button.draw(window)
+            button.DrawButton(window)
 
     pygame.display.update()
 
@@ -140,14 +140,13 @@ def main():
 
         try:
 
-            game = network.send("get")
+            game = network.Send("get")
 
         except:
 
             run = False
             print("Couldn't get game")
             break
-
 
         if game.AllPlayersChose():
 
@@ -156,14 +155,13 @@ def main():
 
             try:
 
-                game = network.send("reset")
+                game = network.Send("reset")
 
             except:
 
                 run = False
                 print("Couldn't get game")
                 break
-
 
             font = pygame.font.SysFont("comicsans", 90)
 
@@ -179,7 +177,6 @@ def main():
             else:
 
                 text = font.render("You have lost...", 1, (255, 0, 0))
-
 
             window.blit(text,
                         (windowWidth/2 - text.get_width()/2,
@@ -207,13 +204,13 @@ def main():
 
                                 if not game.p1HasChosen:
 
-                                    network.send(button, text)
+                                    network.Send(button.text)
 
                                 else:
 
                                     if not game.p1HasChosen:
 
-                                        network.send(button, text)
+                                        network.Send(button.text)
 
         RedrawWindow(window, game, player)
 
@@ -245,9 +242,8 @@ def MenuScreen():
             if event.type == pygame.MOUSEBUTTONDOWN:
 
                 run = False
-
-
     main()
+
 
 while True:
     MenuScreen()
