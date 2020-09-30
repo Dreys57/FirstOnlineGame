@@ -28,9 +28,7 @@ class Button:
         font = pygame.font.SysFont("comicsans", 40)
         text = font.render(self.text, 1, (255, 255, 255))
 
-        window.blit(text,
-                    (self.x + round(self.width / 2) - round(text.get_width()/2),
-                     self.y + round(self.height/2) - round(text.get_height()/2)))
+        window.blit(text, (self.x + round(self.width / 2) - round(text.get_width()/2), self.y + round(self.height/2) - round(text.get_height()/2)))
 
     def ClickButton(self, pos):
 
@@ -57,10 +55,9 @@ def RedrawWindow(window, game, p):
     if not(game.Connected()):
 
         font = pygame.font.SysFont("comicsans", 80)
-        text = font.render("Waiting for Player...")
+        text = font.render("Waiting for Player...", 1, (255, 0, 0), True)
 
-        window.blit(text,
-                    (windowWidth/2 - text.get_width()/2, windowHeight/2 - text.get_height()/2))
+        window.blit(text, (windowWidth/2 - text.get_width()/2, windowHeight/2 - text.get_height()/2))
 
     else:
 
@@ -178,9 +175,7 @@ def main():
 
                 text = font.render("You have lost...", 1, (255, 0, 0))
 
-            window.blit(text,
-                        (windowWidth/2 - text.get_width()/2,
-                         windowHeight/2 - text.get_height()/2))
+            window.blit(text, (windowWidth/2 - text.get_width()/2, windowHeight/2 - text.get_height()/2))
 
             pygame.display.update()
             pygame.time.delay(2000)
