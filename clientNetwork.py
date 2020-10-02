@@ -1,7 +1,7 @@
 import socket
 import pickle
 
-class Network:
+class ClientNetwork:
 
     def __init__(self):
 

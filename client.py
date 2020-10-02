@@ -1,5 +1,5 @@
 import pygame
-from network import Network
+from clientNetwork import ClientNetwork
 import pickle
 
 pygame.font.init()
@@ -43,11 +43,6 @@ class Button:
             return False
 
 
-buttons = [Button("Rock", 50, 500, (0, 0, 0)),
-           Button("Scissors", 250, 500, (255,0,0)),
-           Button("Paper", 450, 500, (0,255,0))]
-
-
 def RedrawWindow(window, game, p):
 
     window.fill((128, 128, 128))
@@ -79,7 +74,8 @@ def RedrawWindow(window, game, p):
             textP2 = font.render(moveP2, 1, (0, 0, 0))
 
         else:
-
+            # the if statements below determines what to display on each player window
+            # whenever one of them makes a choice
             if game.p1HasChosen and p == 0:
 
                 textP1 = font.render(moveP1, 1, (0, 0, 0))
@@ -91,7 +87,6 @@ def RedrawWindow(window, game, p):
             else:
 
                 textP1 = font.render("Waiting...", 1, (0, 0, 0))
-
 
             if game.p2HasChosen and p == 1:
 
@@ -106,15 +101,14 @@ def RedrawWindow(window, game, p):
                 textP2 = font.render("Waiting...", 1, (0, 0, 0))
 
         if p == 1:
-
+            # what is displayed on player 2's screen
             window.blit(textP2, (100, 350))
             window.blit(textP1, (400, 350))
 
         else:
-
+            # what is displayed on player 1's screen
             window.blit(textP1, (100, 350))
             window.blit(textP2, (400, 350))
-
 
         for button in buttons:
 
@@ -123,16 +117,19 @@ def RedrawWindow(window, game, p):
     pygame.display.update()
 
 
+buttons = [Button("Rock", 50, 500, (0, 0, 0)), Button("Scissors", 250, 500, (255,0,0)), Button("Paper", 450, 500, (0,255,0))]
+
+
 def main():
 
     run = True
     clock = pygame.time.Clock()
-    network = Network()
+    network = ClientNetwork()
     player = int(network.getP())
     print("You are player", player)
 
     while run:
-
+        # will wait for players to make a choice before resetting the game for a new round
         clock.tick(60)
 
         try:
@@ -162,17 +159,18 @@ def main():
 
             font = pygame.font.SysFont("comicsans", 90)
 
+            # decides what to do depending on if one of the players won or if it's a tie
             if (game.Winner() == 1 and player == 1) or\
-                (game.Winner() == 0 and player == 0):
-
+                    (game.Winner() == 0 and player == 0):
+                # for the winning player
                 text = font.render("You have won!", 1, (255, 0, 0))
 
             elif game.Winner() == -1:
-
+                # for a tie
                 text = font.render("It's a tie!", 1, (255, 0, 0))
 
             else:
-
+                # for the losing player
                 text = font.render("You have lost...", 1, (255, 0, 0))
 
             window.blit(text, (windowWidth/2 - text.get_width()/2, windowHeight/2 - text.get_height()/2))
@@ -191,6 +189,7 @@ def main():
 
                     pos = pygame.mouse.get_pos()
 
+                    # takes the mouse position and look if it's on the button then sends it to the server
                     for button in buttons:
 
                         if button.ClickButton(pos) and game.Connected():

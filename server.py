@@ -44,7 +44,7 @@ def ThreadedClient(conn, p, gameId):
 
                 elif data != "get":
 
-                    game.play(p, data)
+                    game.Play(p, data)
 
                 conn.sendall(pickle.dumps(game))
 
@@ -52,9 +52,11 @@ def ThreadedClient(conn, p, gameId):
             break
 
     print("Lost Connection...")
-
-    del games[gameId]
-    print("Closing Game...", gameId)
+    try:
+        del games[gameId]
+        print("Closing Game...", gameId)
+    except:
+        pass
 
     idCount -= 1
 
